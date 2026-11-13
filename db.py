@@ -18,13 +18,14 @@ def get_db_config():
     db_url = os.getenv("DATABASE_URL") or os.getenv("MYSQL_URL")
     if db_url:
         parsed = urlparse(db_url)
+        ssl_enabled = os.getenv("DB_SSL", "false").lower() in ("true", "1") or "ssl" in (parsed.query or "").lower()
         return {
             "host": parsed.hostname or "localhost",
             "port": parsed.port or 3306,
             "user": parsed.username or "root",
             "password": parsed.password or "",
             "database": parsed.path.lstrip("/") if parsed.path else "ai_resume_analyzer",
-            "ssl": os.getenv("DB_SSL", "false").lower() in ("true", "1")
+            "ssl": ssl_enabled
         }
 
     return {
@@ -40,6 +41,7 @@ def get_db_config():
 def get_raw_connection(include_database=True):
     """
     Creates and returns a connection to MySQL using current environment values.
+    Enforces strict TLS certificate and hostname identity verification when SSL is enabled.
     """
     cfg = get_db_config()
     connect_kwargs = {
@@ -54,7 +56,12 @@ def get_raw_connection(include_database=True):
         "autocommit": True
     }
     if cfg["ssl"]:
-        connect_kwargs["ssl"] = {"ssl_mode": "PREFERRED"}
+        # Enable secure TLS verification for cloud databases (e.g. TiDB Cloud)
+        connect_kwargs["ssl_verify_cert"] = True
+        connect_kwargs["ssl_verify_identity"] = True
+        ssl_ca = os.getenv("DB_SSL_CA")
+        if ssl_ca:
+            connect_kwargs["ssl_ca"] = ssl_ca
 
     return pymysql.connect(**connect_kwargs)
 
