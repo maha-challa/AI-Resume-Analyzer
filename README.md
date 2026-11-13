@@ -177,6 +177,47 @@ pip install -r requirements.txt
 
 ---
 
+## ☁️ Production Deployment Guide
+
+The application is configured and ready for deployment on major cloud hosting platforms (such as **Render**, **Railway**, or **Heroku**).
+
+### 1. WSGI Server Configurations
+- **Linux Cloud Hosts (Render, Railway, Heroku):** Uses **Gunicorn**, configured via the included `Procfile`:
+  ```bash
+  web: gunicorn app:app
+  ```
+- **Windows Server Hosting:** Uses **Waitress**:
+  ```bash
+  waitress-serve --port=5000 app:app
+  ```
+
+### 2. Deploying on Render / Railway
+1. **Connect Repository:** Link your GitHub repository (`maha-challa/AI-Resume-Analyzer`).
+2. **Build Command:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Start Command:**
+   ```bash
+   gunicorn app:app
+   ```
+4. **Environment Variables:** Set the following variables in your hosting dashboard:
+   - `DB_HOST`: Hostname of your cloud MySQL instance
+   - `DB_PORT`: `3306`
+   - `DB_USER`: Database username
+   - `DB_PASSWORD`: Database password
+   - `DB_NAME`: `ai_resume_analyzer`
+   - `DB_SSL`: `true` (if your cloud MySQL provider requires SSL)
+   - *Or simply provide:* `DATABASE_URL=mysql://user:pass@host:port/ai_resume_analyzer`
+   - `FLASK_SECRET_KEY`: A random secure key string
+
+### 3. Recommended Cloud MySQL Providers (Free Tier Available)
+- **Aiven for MySQL:** Free cloud-hosted MySQL with SSL support.
+- **Railway MySQL:** 1-click managed MySQL database that connects directly via `DATABASE_URL`.
+- **Clever Cloud / PlanetScale:** Managed cloud relational databases.
+
+---
+
 ## 🖼️ Application Preview & Workflow
 
 ### 1. Welcome & Analyzer Workspace

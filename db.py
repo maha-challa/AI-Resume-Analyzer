@@ -1,5 +1,6 @@
 import os
 import json
+from urllib.parse import urlparse
 import pymysql
 from pymysql.cursors import DictCursor
 from dotenv import load_dotenv
@@ -9,33 +10,53 @@ load_dotenv(override=True)
 
 
 def get_db_config():
-    """Dynamically loads configuration from .env on each connection request."""
+    """
+    Dynamically loads configuration from environment variables on each connection.
+    Supports either individual variables (DB_HOST, etc.) or a single DATABASE_URL / MYSQL_URL.
+    """
     load_dotenv(override=True)
+    db_url = os.getenv("DATABASE_URL") or os.getenv("MYSQL_URL")
+    if db_url:
+        parsed = urlparse(db_url)
+        return {
+            "host": parsed.hostname or "localhost",
+            "port": parsed.port or 3306,
+            "user": parsed.username or "root",
+            "password": parsed.password or "",
+            "database": parsed.path.lstrip("/") if parsed.path else "ai_resume_analyzer",
+            "ssl": os.getenv("DB_SSL", "false").lower() in ("true", "1")
+        }
+
     return {
         "host": os.getenv("DB_HOST", "localhost"),
         "port": int(os.getenv("DB_PORT", 3306)),
         "user": os.getenv("DB_USER", "resume_user"),
         "password": os.getenv("DB_PASSWORD", ""),
-        "database": os.getenv("DB_NAME", "ai_resume_analyzer")
+        "database": os.getenv("DB_NAME", "ai_resume_analyzer"),
+        "ssl": os.getenv("DB_SSL", "false").lower() in ("true", "1")
     }
 
 
 def get_raw_connection(include_database=True):
     """
-    Creates and returns a connection to MySQL using current .env values.
+    Creates and returns a connection to MySQL using current environment values.
     """
     cfg = get_db_config()
-    return pymysql.connect(
-        host=cfg["host"],
-        port=cfg["port"],
-        user=cfg["user"],
-        password=cfg["password"],
-        database=cfg["database"] if include_database else None,
-        charset="utf8mb4",
-        cursorclass=DictCursor,
-        connect_timeout=5,
-        autocommit=True
-    )
+    connect_kwargs = {
+        "host": cfg["host"],
+        "port": cfg["port"],
+        "user": cfg["user"],
+        "password": cfg["password"],
+        "database": cfg["database"] if include_database else None,
+        "charset": "utf8mb4",
+        "cursorclass": DictCursor,
+        "connect_timeout": 5,
+        "autocommit": True
+    }
+    if cfg["ssl"]:
+        connect_kwargs["ssl"] = {"ssl_mode": "PREFERRED"}
+
+    return pymysql.connect(**connect_kwargs)
 
 
 def test_connection():
