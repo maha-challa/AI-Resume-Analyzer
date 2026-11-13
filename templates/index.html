@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer - Smart Resume &amp; Skill Match Tool</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Professional Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-navy sticky-top shadow-sm py-3">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#">
+                    <div class="brand-logo-icon">
+                        <i class="bi bi-file-earmark-person-fill"></i>
+                    </div>
+                    <span>AI Resume Analyzer</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home"><i class="bi bi-house-door me-1"></i>Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#analyzerSection"><i class="bi bi-cpu me-1"></i>Analyzer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#historySection"><i class="bi bi-clock-history me-1"></i>History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#howItWorks"><i class="bi bi-gear-wide-connected me-1"></i>How It Works</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about"><i class="bi bi-info-circle me-1"></i>About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Welcome / Hero Section -->
+    <section id="home" class="hero-section text-white py-5">
+        <div class="container py-4">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7 text-center text-lg-start">
+                    <div class="badge bg-light-blue text-navy px-3 py-2 rounded-pill fw-semibold mb-3 d-inline-flex align-items-center gap-2 shadow-sm">
+                        <i class="bi bi-stars text-primary"></i> Smart Keyword Match &amp; Skill Gap Analysis
+                    </div>
+                    <h1 class="display-4 fw-extrabold text-white mb-3 hero-title">
+                        Analyze Your Resume <br class="d-none d-md-block">with <span class="gradient-text">AI Precision</span>
+                    </h1>
+                    <p class="lead text-light-slate mb-4 pe-lg-4">
+                        Discover your skills, identify skill gaps and understand how well your resume matches your dream job. Results are automatically saved to your MySQL database.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#analyzerSection" class="btn btn-accent btn-lg px-4 py-3 rounded-pill fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                            <span>Get Started</span>
+                            <i class="bi bi-arrow-down-circle-fill fs-5"></i>
+                        </a>
+                        <a href="#historySection" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-semibold">
+                            <i class="bi bi-clock-history me-1"></i>View History
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-stats-card p-4 rounded-4 shadow-lg">
+                        <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-secondary-subtle">
+                            <div class="icon-circle bg-primary-soft text-primary">
+                                <i class="bi bi-filetype-pdf fs-3"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold text-dark">Instant PDF Text Extraction</h6>
+                                <small class="text-muted">Powered by PyPDF2</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-secondary-subtle">
+                            <div class="icon-circle bg-success-soft text-success">
+                                <i class="bi bi-bullseye fs-3"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold text-dark">Skill Match Percentage</h6>
+                                <small class="text-muted">Automated keyword comparison</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="icon-circle bg-info-soft text-info">
+                                <i class="bi bi-database-check fs-3"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold text-dark">MySQL Database Persistence</h6>
+                                <small class="text-muted">Track all your historical analyses</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Analyzer Dashboard Section -->
+    <section id="analyzerSection" class="py-5 bg-dashboard">
+        <div class="container py-3">
+            <div class="text-center mb-5">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">Resume Audit Tool</span>
+                <h2 class="fw-bold text-navy">Compare Resume Against Job Requirements</h2>
+                <p class="text-muted mx-auto" style="max-width: 650px;">
+                    Upload your PDF resume and paste the job description below to view your skill match percentage and identify missing keywords.
+                </p>
+            </div>
+
+            <!-- Error Banner (if any) -->
+            <div id="errorAlert" class="alert alert-danger alert-dismissible fade {% if not error %}d-none{% else %}show{% endif %}" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span id="errorMessage">{{ error if error else '' }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!-- Upload & Input Form -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+                <div class="card-body p-4 p-md-5">
+                    <form id="resumeForm" action="{{ url_for('analyze') }}" method="POST" enctype="multipart/form-data">
+                        <div class="row g-4">
+                            <!-- Step 1: Resume Upload -->
+                            <div class="col-lg-6">
+                                <div class="step-card h-100 p-4 rounded-4 border bg-white">
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <span class="step-number">1</span>
+                                        <h5 class="fw-bold text-navy mb-0">Upload Resume (PDF)</h5>
+                                    </div>
+                                    <p class="text-muted small mb-3">
+                                        Select your resume in PDF format. Make sure the PDF contains selectable text (not scanned images).
+                                    </p>
+
+                                    <!-- Drag & Drop Zone -->
+                                    <div class="upload-dropzone text-center p-4 rounded-3 border-2 border-dashed" id="dropZone">
+                                        <input type="file" name="resume" id="resumeFileInput" class="d-none" accept=".pdf" required>
+                                        <div class="upload-icon mb-2 text-primary">
+                                            <i class="bi bi-cloud-arrow-up-fill fs-1"></i>
+                                        </div>
+                                        <h6 class="fw-bold text-dark mb-1">Drag and drop your PDF here</h6>
+                                        <p class="text-muted small mb-3">or click to browse from your computer</p>
+                                        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" id="browseBtn">
+                                            <i class="bi bi-folder2-open me-1"></i>Browse PDF
+                                        </button>
+                                        <div class="mt-2 text-muted" style="font-size: 0.75rem;">
+                                            Supported: <strong>.pdf</strong> (Max: 16 MB)
+                                        </div>
+                                    </div>
+
+                                    <!-- Selected File Feedback -->
+                                    <div id="fileSelectedCard" class="mt-3 p-3 rounded-3 bg-light border d-none align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-2 text-truncate">
+                                            <i class="bi bi-file-earmark-pdf-fill text-danger fs-3"></i>
+                                            <div class="text-truncate">
+                                                <div id="selectedFileName" class="fw-semibold text-dark text-truncate">resume.pdf</div>
+                                                <small id="selectedFileSize" class="text-muted">0 KB</small>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-link text-danger p-0 ms-2" id="removeFileBtn" title="Remove file">
+                                            <i class="bi bi-x-circle-fill fs-5"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Job Description Input -->
+                            <div class="col-lg-6">
+                                <div class="step-card h-100 p-4 rounded-4 border bg-white d-flex flex-column">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="step-number">2</span>
+                                            <h5 class="fw-bold text-navy mb-0">Job Description</h5>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-light border rounded-pill px-2 py-1 text-muted" id="sampleJdBtn" style="font-size: 0.75rem;">
+                                            <i class="bi bi-magic me-1"></i>Load Sample
+                                        </button>
+                                    </div>
+                                    <p class="text-muted small mb-3">
+                                        Paste the target job description or requirements list to benchmark your technical skills against.
+                                    </p>
+                                    <div class="flex-grow-1">
+                                        <textarea name="job_description" id="jobDescriptionInput" class="form-control rounded-3 h-100 jd-textarea" rows="7" placeholder="Paste the target job description here...&#10;&#10;Example:&#10;We are seeking a Python Developer proficient in Python, Flask, HTML, CSS, JavaScript, React, REST API, and MySQL..." required>{{ job_description if job_description else '' }}</textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-2 text-muted small">
+                                        <span><i class="bi bi-info-circle me-1"></i>Keyword matching identifies technical skills.</span>
+                                        <span id="jdWordCount">0 words</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Button & Loading Indicator -->
+                        <div class="text-center mt-4 pt-2">
+                            <button type="submit" id="analyzeBtn" class="btn btn-navy btn-lg px-5 py-3 rounded-pill fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                                <i class="bi bi-cpu fs-5"></i>
+                                <span>Analyze Resume</span>
+                            </button>
+
+                            <!-- Loading State -->
+                            <div id="loadingIndicator" class="d-none mt-3">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="text-muted mt-2 fw-semibold">Extracting PDF text &amp; matching technical skills...</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Analysis Results Section -->
+            <div id="resultsContainer" class="{% if not results %}d-none{% endif %} mb-5">
+                <div class="results-header text-center mb-4">
+                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold mb-2">
+                        <i class="bi bi-check-circle-fill me-1"></i>Analysis Complete
+                    </span>
+                    <h2 class="fw-bold text-navy">Resume Analysis Report</h2>
+                    <p class="text-muted small mb-1">
+                        <strong>Disclaimer:</strong> This is a <strong>Skill Match Percentage</strong> calculated using a keyword-matching estimate, not an official ATS score.
+                    </p>
+                    <div id="dbSaveNotice" class="small fw-semibold text-muted"></div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Match Percentage Card -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm rounded-4 h-100 p-4 text-center bg-white">
+                            <h5 class="fw-bold text-navy mb-3">Skill Match Percentage</h5>
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="score-circle-wrapper position-relative">
+                                    <div class="score-circle" id="scoreCircle">
+                                        <span class="score-value" id="scoreValue">{{ results.match_percentage if results else 0 }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge bg-{{ results.match_color if results else 'primary' }}-subtle text-{{ results.match_color if results else 'primary' }} px-3 py-2 rounded-pill fw-bold fs-6" id="matchLevelBadge">
+                                    {{ results.match_level if results else 'Analyzing' }}
+                                </span>
+                            </div>
+                            <p class="text-muted small mt-3 mb-0">
+                                Based on required skills identified from the job description vs skills found in your uploaded resume.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Matched & Missing Skills Cards -->
+                    <div class="col-lg-8">
+                        <div class="row g-4 h-100">
+                            <!-- Matched Skills -->
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="badge-icon bg-success-soft text-success">
+                                                <i class="bi bi-check-circle-fill fs-5"></i>
+                                            </div>
+                                            <h5 class="fw-bold text-dark mb-0">Matched Skills</h5>
+                                        </div>
+                                        <span class="badge bg-success rounded-pill px-3 py-2" id="matchedCount">
+                                            {{ results.matched_skills|length if results else 0 }} found
+                                        </span>
+                                    </div>
+                                    <p class="text-muted small mb-3">
+                                        These skills required by the job were detected in your resume:
+                                    </p>
+                                    <div id="matchedSkillsList" class="d-flex flex-wrap gap-2">
+                                        {% if results and results.matched_skills %}
+                                            {% for skill in results.matched_skills %}
+                                                <span class="badge badge-matched px-3 py-2 rounded-pill">
+                                                    <i class="bi bi-check2 me-1"></i>{{ skill }}
+                                                </span>
+                                            {% endfor %}
+                                        {% elif results %}
+                                            <span class="text-muted fst-italic small">No matching skills detected from the job description requirements.</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Missing Skills -->
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="badge-icon bg-danger-soft text-danger">
+                                                <i class="bi bi-exclamation-octagon-fill fs-5"></i>
+                                            </div>
+                                            <h5 class="fw-bold text-dark mb-0">Missing Skills (Skill Gaps)</h5>
+                                        </div>
+                                        <span class="badge bg-danger rounded-pill px-3 py-2" id="missingCount">
+                                            {{ results.missing_skills|length if results else 0 }} missing
+                                        </span>
+                                    </div>
+                                    <p class="text-muted small mb-3">
+                                        These skills are mentioned in the job description but were not found in your resume:
+                                    </p>
+                                    <div id="missingSkillsList" class="d-flex flex-wrap gap-2">
+                                        {% if results and results.missing_skills %}
+                                            {% for skill in results.missing_skills %}
+                                                <span class="badge badge-missing px-3 py-2 rounded-pill">
+                                                    <i class="bi bi-plus-circle me-1"></i>{{ skill }}
+                                                </span>
+                                            {% endfor %}
+                                        {% elif results %}
+                                            <span class="text-success fw-semibold small">
+                                                <i class="bi bi-stars me-1"></i>Great news! No required skills are missing.
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Improvement Suggestions -->
+                    <div class="col-lg-12">
+                        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                            <div class="d-flex align-items-center gap-2 mb-3">
+                                <div class="badge-icon bg-warning-soft text-warning">
+                                    <i class="bi bi-lightbulb-fill fs-5"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-0">Personalized Improvement Suggestions</h5>
+                            </div>
+                            <ul id="suggestionsList" class="list-unstyled mb-0 d-flex flex-column gap-2">
+                                {% if results and results.suggestions %}
+                                    {% for suggestion in results.suggestions %}
+                                        <li class="suggestion-item p-3 rounded-3 bg-light border-start border-4 border-primary">
+                                            <i class="bi bi-arrow-right-short text-primary fs-5 me-1 align-middle"></i>
+                                            <span>{{ suggestion }}</span>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Extracted Resume Text (Collapsible Accordion) -->
+                    <div class="col-lg-12">
+                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                            <div class="card-header bg-white border-0 p-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-file-text-fill text-primary fs-5"></i>
+                                        <h5 class="fw-bold text-dark mb-0">Extracted Resume Text</h5>
+                                    </div>
+                                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" type="button" data-bs-toggle="collapse" data-bs-target="#resumeTextCollapse" aria-expanded="false" aria-controls="resumeTextCollapse">
+                                        <i class="bi bi-chevron-down me-1"></i>View Extracted Text
+                                    </button>
+                                </div>
+                                <p class="text-muted small mb-0 mt-1">
+                                    Inspect the raw plain text extracted from your PDF by PyPDF2.
+                                </p>
+                            </div>
+                            <div class="collapse" id="resumeTextCollapse">
+                                <div class="card-body px-4 pb-4 pt-0">
+                                    <div class="extracted-text-box p-3 rounded-3 bg-light border font-monospace small" id="extractedTextBox" style="max-height: 350px; overflow-y: auto; white-space: pre-wrap;">{{ results.full_resume_text if results else '' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="historySection" class="py-5 bg-white border-top">
+        <div class="container py-3">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">
+                        <i class="bi bi-database me-1"></i>Database Records
+                    </span>
+                    <h2 class="fw-bold text-navy mb-1">Analysis History</h2>
+                    <p class="text-muted small mb-0">Review previous resume audits stored in your MySQL database.</p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span id="dbStatusPill" class="badge bg-light text-secondary border px-3 py-2 rounded-pill small">
+                        <i class="bi bi-circle-fill text-secondary me-1" style="font-size: 0.6rem;"></i>Checking Database...
+                    </span>
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" id="refreshHistoryBtn">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- History Table / Cards -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0" id="historyTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Resume File</th>
+                                <th>Date &amp; Time</th>
+                                <th>Skill Match</th>
+                                <th>Matched Skills</th>
+                                <th>Missing Skills</th>
+                                <th class="text-end pe-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                                    Loading history from MySQL...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Detail Modal -->
+    <div class="modal fade" id="historyDetailModal" tabindex="-1" aria-labelledby="historyDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-navy text-white px-4 py-3">
+                    <h5 class="modal-title fw-bold" id="historyDetailModalLabel">
+                        <i class="bi bi-file-earmark-text me-2"></i>Analysis Record Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center pb-3 mb-3 border-bottom gap-2">
+                        <div>
+                            <h6 class="fw-bold text-navy mb-1" id="modalFileName">resume.pdf</h6>
+                            <small class="text-muted" id="modalDate">Jan 01, 2026</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary px-3 py-2 rounded-pill fs-6" id="modalScore">0% Match</span>
+                        </div>
+                    </div>
+
+                    <!-- Skills -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Matched Skills:</h6>
+                        <div id="modalMatchedSkills" class="d-flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Missing Skills:</h6>
+                        <div id="modalMissingSkills" class="d-flex flex-wrap gap-2"></div>
+                    </div>
+
+                    <!-- Suggestions -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-dark mb-2">Suggestions:</h6>
+                        <ul id="modalSuggestions" class="list-unstyled mb-0 d-flex flex-column gap-2 small"></ul>
+                    </div>
+
+                    <!-- Job Description -->
+                    <div>
+                        <h6 class="fw-bold text-dark mb-2">Job Description Used:</h6>
+                        <div class="p-3 bg-light rounded-3 border small font-monospace" id="modalJobDescription" style="max-height: 200px; overflow-y: auto; white-space: pre-wrap;"></div>
+                    </div>
+                </div>
+                <div class="modal-footer px-4 py-3 bg-light border-0">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <section id="howItWorks" class="py-5 bg-dashboard border-top">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">Process Overview</span>
+                <h2 class="fw-bold text-navy">How AI Resume Analyzer Works</h2>
+                <p class="text-muted mx-auto" style="max-width: 600px;">
+                    Three straightforward steps to help you align your resume with job requirements.
+                </p>
+            </div>
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 feature-card">
+                        <div class="feature-icon-wrapper bg-primary-soft text-primary mx-auto mb-3">
+                            <i class="bi bi-cloud-arrow-up fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold text-navy mb-2">1. Upload Resume PDF</h5>
+                        <p class="text-muted small mb-0">
+                            Upload your resume in PDF format. PyPDF2 parses the document and extracts clean text without altering your file.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 feature-card">
+                        <div class="feature-icon-wrapper bg-info-soft text-info mx-auto mb-3">
+                            <i class="bi bi-card-text fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold text-navy mb-2">2. Paste Job Description</h5>
+                        <p class="text-muted small mb-0">
+                            Input the target job responsibilities. The analyzer extracts required skills and compares them against your resume.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 feature-card">
+                        <div class="feature-icon-wrapper bg-success-soft text-success mx-auto mb-3">
+                            <i class="bi bi-database-check fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold text-navy mb-2">3. Save &amp; Track Results</h5>
+                        <p class="text-muted small mb-0">
+                            Review your score, gap recommendations, and track all past analyses securely in your MySQL database history.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-white border-top">
+        <div class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">About The Project</span>
+                    <h2 class="fw-bold text-navy mb-3">About AI Resume Analyzer</h2>
+                    <p class="text-secondary mb-4 leading-relaxed">
+                        AI Resume Analyzer is a full-stack web application developed with <strong>Python, Flask, Bootstrap, JavaScript, PyPDF2</strong> and <strong>MySQL</strong>. It helps job seekers understand keyword matching algorithms, uncover hidden skill gaps, and track improvement over time.
+                    </p>
+                    <div class="alert alert-info border-0 rounded-4 p-3 shadow-sm text-start d-flex align-items-center gap-3">
+                        <i class="bi bi-shield-lock-fill fs-2 text-primary"></i>
+                        <div class="small">
+                            <strong>Security &amp; Privacy:</strong> Database credentials are strictly managed using environment variables (<code>.env</code>) and never hardcoded or exposed in frontend code.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy text-white py-4 mt-auto">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
+                <div class="brand-logo-icon" style="width: 28px; height: 28px; font-size: 14px;">
+                    <i class="bi bi-file-earmark-person-fill"></i>
+                </div>
+                <span class="fw-bold">AI Resume Analyzer</span>
+            </div>
+            <p class="text-light-slate small mb-0">
+                &copy; 2026 AI Resume Analyzer. Built with Python, Flask, Bootstrap, JavaScript &amp; MySQL.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

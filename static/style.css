@@ -1,0 +1,331 @@
+/* ==========================================================================
+   AI Resume Analyzer - Custom CSS Styles
+   Color Palette: Professional Navy Blue, White, Light Blue & Clean Slate
+   ========================================================================== */
+
+:root {
+    --navy-primary: #0f172a;      /* Dark rich navy */
+    --navy-secondary: #1e293b;    /* Medium navy / slate */
+    --blue-accent: #0284c7;       /* Vibrant cyan/blue */
+    --blue-light: #e0f2fe;        /* Soft light blue tint */
+    --blue-hover: #0369a1;        /* Darker blue hover */
+    --bg-dashboard: #f8fafc;      /* Clean neutral dashboard background */
+    --card-bg: #ffffff;           /* Crisp white */
+    --text-slate: #64748b;        /* Subdued text */
+    --border-color: #e2e8f0;      /* Gentle border */
+    --success-color: #10b981;     /* Emerald green */
+    --danger-color: #ef4444;      /* Modern red */
+    --warning-color: #f59e0b;     /* Amber */
+}
+
+/* Base & Typography */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-dashboard);
+    color: #1e293b;
+    scroll-behavior: smooth;
+}
+
+/* Background utilities */
+.bg-navy {
+    background-color: var(--navy-primary) !important;
+}
+
+.bg-dashboard {
+    background-color: var(--bg-dashboard);
+}
+
+.text-navy {
+    color: var(--navy-primary);
+}
+
+.text-light-slate {
+    color: #94a3b8;
+}
+
+.bg-light-blue {
+    background-color: var(--blue-light);
+}
+
+/* Navbar */
+.brand-logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+}
+
+.navbar .nav-link {
+    color: #cbd5e1 !important;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 0.5rem 0.85rem !important;
+    border-radius: 8px;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Hero Section */
+.hero-section {
+    background: radial-gradient(circle at 10% 20%, #1e293b 0%, #0f172a 90%);
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-title {
+    letter-spacing: -0.02em;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+    border: none;
+    color: #ffffff;
+    transition: all 0.25s ease;
+}
+
+.btn-accent:hover {
+    background: linear-gradient(135deg, #0369a1, #0284c7);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.4);
+}
+
+.btn-navy {
+    background-color: var(--navy-primary);
+    color: #ffffff;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.btn-navy:hover {
+    background-color: var(--navy-secondary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(15, 23, 42, 0.3);
+}
+
+.hero-stats-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Soft Icon Circles */
+.icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg-primary-soft { background-color: rgba(2, 132, 199, 0.12); }
+.bg-success-soft { background-color: rgba(16, 185, 129, 0.12); }
+.bg-danger-soft  { background-color: rgba(239, 68, 68, 0.12); }
+.bg-warning-soft { background-color: rgba(245, 158, 11, 0.12); }
+.bg-info-soft    { background-color: rgba(6, 182, 212, 0.12); }
+
+/* Step Cards & Inputs */
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--navy-primary);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.upload-dropzone {
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+    border-color: var(--blue-accent);
+    background-color: rgba(224, 242, 254, 0.5);
+    transform: scale(1.01);
+}
+
+.jd-textarea {
+    resize: none;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    border-color: #cbd5e1;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jd-textarea:focus {
+    border-color: var(--blue-accent);
+    box-shadow: 0 0 0 0.25rem rgba(2, 132, 199, 0.15);
+}
+
+/* Circular Score Gauge */
+.score-circle-wrapper {
+    width: 140px;
+    height: 140px;
+}
+
+.score-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: conic-gradient(#0284c7 0%, #e2e8f0 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: background 0.8s ease;
+}
+
+.score-circle::before {
+    content: '';
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    position: absolute;
+}
+
+.score-value {
+    position: relative;
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--navy-primary);
+    z-index: 1;
+}
+
+/* Skills Badges */
+.badge-matched {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: transform 0.15s ease;
+}
+
+.badge-matched:hover {
+    transform: translateY(-1px);
+    background-color: #d1fae5;
+}
+
+.badge-missing {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: transform 0.15s ease;
+}
+
+.badge-missing:hover {
+    transform: translateY(-1px);
+    background-color: #fee2e2;
+}
+
+/* Suggestion Items */
+.suggestion-item {
+    font-size: 0.93rem;
+    color: #334155;
+    background-color: #f8fafc;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f1f5f9;
+}
+
+/* Feature Cards */
+.feature-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .score-circle-wrapper,
+    .score-circle {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .score-circle::before {
+        width: 92px;
+        height: 92px;
+    }
+
+    .score-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* History Table & Modal Styles */
+#historyTable tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+#historyTable tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.modal-content {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+}
