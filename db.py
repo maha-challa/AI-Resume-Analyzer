@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime, timezone, timedelta
 from urllib.parse import urlparse
 import pymysql
 from pymysql.cursors import DictCursor
@@ -7,6 +8,26 @@ from dotenv import load_dotenv
 
 # Load environment variables on startup
 load_dotenv(override=True)
+
+# Target timezone definition: Indian Standard Time (IST, UTC+5:30)
+IST_TIMEZONE = timezone(timedelta(hours=5, minutes=30), name="IST")
+
+
+def format_ist_datetime(dt) -> str:
+    """
+    Safely formats a datetime object to an Indian Standard Time (IST) display string.
+    - If dt is timezone-aware (e.g. in UTC), converts it cleanly to IST (+05:30).
+    - If dt is naive (as returned when MySQL session time_zone is '+05:30'), formats directly.
+    - Never adds 5 hours and 30 minutes twice.
+    - Returns format: 'Nov 13, 2026 - 03:03 PM'
+    """
+    if not dt:
+        return "N/A"
+    if isinstance(dt, str):
+        return dt
+    if hasattr(dt, "tzinfo") and dt.tzinfo is not None:
+        dt = dt.astimezone(IST_TIMEZONE)
+    return dt.strftime("%b %d, %Y - %I:%M %p")
 
 
 def get_db_config():
@@ -53,7 +74,8 @@ def get_raw_connection(include_database=True):
         "charset": "utf8mb4",
         "cursorclass": DictCursor,
         "connect_timeout": 5,
-        "autocommit": True
+        "autocommit": True,
+        "init_command": f"SET time_zone = '{os.getenv('DB_TIMEZONE', '+05:30')}'"
     }
     if cfg["ssl"]:
         # Enable secure TLS verification for cloud databases (e.g. TiDB Cloud)
@@ -192,10 +214,7 @@ def get_all_analyses() -> list:
             except Exception:
                 row["improvement_suggestions"] = []
 
-            if row.get("created_at"):
-                row["formatted_date"] = row["created_at"].strftime("%b %d, %Y - %I:%M %p")
-            else:
-                row["formatted_date"] = "N/A"
+            row["formatted_date"] = format_ist_datetime(row.get("created_at"))
 
         return rows
     finally:
@@ -234,8 +253,7 @@ def get_analysis_by_id(analysis_id: int):
             except Exception:
                 row["improvement_suggestions"] = []
 
-            if row.get("created_at"):
-                row["formatted_date"] = row["created_at"].strftime("%b %d, %Y - %I:%M %p")
+            row["formatted_date"] = format_ist_datetime(row.get("created_at"))
 
         return row
     finally:
